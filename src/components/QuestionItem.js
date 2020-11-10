@@ -1,27 +1,16 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { formatQuestion } from '../utils/helpers';
-import { handleAnswerQuestion } from '../actions/questions';
+import { Link, withRouter } from 'react-router-dom';
 
-class Question extends Component {
-  handleAnswer = (e) => {
-    e.preventDefault();
-
-    const { dispatch, question, authedUser } = this.props
-
-    dispatch(handleAnswerQuestion({
-      authedUser: authedUser,
-      qid: question.id,
-    }))
-  }
+class QuestionItem extends Component {
   render() {
     const { question } = this.props;
     const {
-      name, avatar, optionOne, optionTwo
+      name, id, avatar, optionOne, optionTwo
     } = question;
 
     if (question === null) {
-      console.log('null question')
       return <p>does not exist</p>
     }
 
@@ -33,13 +22,14 @@ class Question extends Component {
             src={avatar}
             className='avatar'
           />
-          <form>
+          <div>
             Would you rather:
-            <input type='radio'>{optionOne}</input>
+            <p>{optionOne}</p>
             OR
-            <input type='radio'>{optionTwo}</input>
-          </form>
+            <p>{optionTwo}</p>
+          </div>
         </div>
+        <Link to={`/question/${id}`} className='view-question'>View Poll</Link>
       </div>
     );
   }
@@ -48,15 +38,13 @@ class Question extends Component {
 function mapStateToProps ({ authedUser, users, questions }, { id }) {
   const question = questions[id];
   console.log('test', question, id);
-  console.log('questions', questions);
 
   return {
     authedUser,
-    questions,
     question: question
       ? formatQuestion(question, users[question.author], authedUser)
       : null
   }
 }
 
-export default connect(mapStateToProps)(Question);
+export default withRouter(connect(mapStateToProps)(QuestionItem));

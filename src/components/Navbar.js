@@ -1,12 +1,26 @@
-import React, { Component } from 'react';
-import './App.css';
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 
-class Navbar extends Component {
-  render () {
-    return (
-      <div></div>
-    );
-  }
+export default function Navbar () {
+  return (
+    <nav className='nav'>
+      <ul>
+        <li>
+          <NavLink to='/' exact activeClassName='active'>
+            Home
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to='/new' activeClassName='active'>
+            New Question
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to='/leaderboard' activeClassName='active'>
+            Leaderboard
+          </NavLink>
+        </li>
+      </ul>
+    </nav>
+  )
 }
-
-export default Navbar;
