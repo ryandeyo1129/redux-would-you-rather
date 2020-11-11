@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import ListNav from './ListNav';
-import AnsweredList from './AnsweredList';
-import UnansweredList from './UnansweredList';
 
 class Home extends Component {
   state = {
@@ -20,8 +17,6 @@ class Home extends Component {
     return (
       <div>
         <ListNav />
-        <Route path='/unanswered' component={UnansweredList} />
-        <Route path='/answered' component={AnsweredList} />
       </div>
     );
   }

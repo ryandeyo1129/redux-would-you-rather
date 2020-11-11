@@ -37,3 +37,7 @@ li {
 .poll {
   display: block;
 }
+
+.question, .new-question {
+  padding-left: 50px;
+}

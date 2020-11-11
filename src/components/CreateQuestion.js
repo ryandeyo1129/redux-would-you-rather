@@ -47,9 +47,9 @@ class CreateQuestion extends Component {
     }
 
     return (
-      <div>
+      <div className='new-question'>
         <h3>Create New Question</h3>
-        <form className='new-question' onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <input
             placeholder="scenario 1"
             value={text1}

@@ -6,7 +6,7 @@ export default function Navbar () {
     <nav className='nav'>
       <ul>
         <li>
-          <NavLink to='/unanswered' exact activeClassName='active'>
+          <NavLink to='/unanswered' activeClassName='active'>
             Unanswered Questions
           </NavLink>
         </li>

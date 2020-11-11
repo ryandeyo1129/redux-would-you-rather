@@ -4,7 +4,7 @@ export function formatQuestion (question, author, authedUser) {
 
   console.log(optionOne)
 
-  const hasAnswer = optionOne.votes.includes(authedUser)
+  const hasAnswer = optionOne.includes(authedUser) || optionTwo.votes.includes(authedUser)
 
   console.log(hasAnswer);
 

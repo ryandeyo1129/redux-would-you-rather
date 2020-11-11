@@ -9,6 +9,8 @@ import QuestionPage from './QuestionPage';
 import CreateQuestion from './CreateQuestion';
 import LeaderBoard from './LeaderBoard';
 import Login from './Login';
+import AnsweredList from './AnsweredList';
+import UnansweredList from './UnansweredList';
 
 class App extends Component {
   componentDidMount() {
@@ -25,6 +27,8 @@ class App extends Component {
             <Route path='/new' component={CreateQuestion} />
             <Route path='/leaderboard' component={LeaderBoard} />
             <Route path='/login' component={Login} />
+            <Route path='/unanswered' component={UnansweredList} />
+            <Route path='/answered' component={AnsweredList} />
           </div>
         </div>
       </Router>
