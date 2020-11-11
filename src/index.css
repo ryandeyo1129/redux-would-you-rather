@@ -33,3 +33,7 @@ li {
   display: flex;
   flex-direction: row;
 }
+
+.poll {
+  display: block;
+}

@@ -18,13 +18,11 @@ class Home extends Component {
 
   render () {
     return (
-      <Router>
+      <div>
         <ListNav />
-        <div>
-          <Route path='/unanswered' component={UnansweredList} />
-          <Route path='/answered' component={AnsweredList} />
-        </div>
-      </Router>
+        <Route path='/unanswered' component={UnansweredList} />
+        <Route path='/answered' component={AnsweredList} />
+      </div>
     );
   }
 }

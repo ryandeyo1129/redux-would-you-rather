@@ -6,13 +6,14 @@ import { Link, withRouter } from 'react-router-dom';
 class QuestionItem extends Component {
   render() {
     const { question } = this.props;
-    const {
-      name, id, avatar, optionOne, optionTwo
-    } = question;
 
     if (question === null) {
       return <p>does not exist</p>
     }
+
+    const {
+      name, id, avatar, optionOne, optionTwo
+    } = question;
 
     return (
       <div className='question'>
@@ -37,7 +38,8 @@ class QuestionItem extends Component {
 
 function mapStateToProps ({ authedUser, users, questions }, { id }) {
   const question = questions[id];
-  console.log('test', question, id);
+  console.log('test', question);
+
 
   return {
     authedUser,

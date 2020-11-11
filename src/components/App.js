@@ -20,7 +20,7 @@ class App extends Component {
         <div className="container">
           <Navbar />
           <div>
-            <Route path='/' exact component={Home} />
+            <Route path='/' component={Home} />
             <Route path='/question/:id' component={QuestionPage} />
             <Route path='/new' component={CreateQuestion} />
             <Route path='/leaderboard' component={LeaderBoard} />

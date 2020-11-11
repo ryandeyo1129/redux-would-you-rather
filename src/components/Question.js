@@ -4,26 +4,47 @@ import { formatQuestion } from '../utils/helpers';
 import { handleAnswerQuestion } from '../actions/questions';
 
 class Question extends Component {
+  state = {
+    answer: ''
+  }
+
   handleAnswer = (e) => {
     e.preventDefault();
 
+    console.log(e.target.value);
+
     const { dispatch, question, authedUser } = this.props
+    const { answer } = this.state
+
+    console.log(answer)
 
     dispatch(handleAnswerQuestion({
       authedUser: authedUser,
       qid: question.id,
+      answer: answer
+    }))
+  }
+  handleChange = (e) => {
+    const answer = e.target.id
+
+    console.log(e.target.id)
+
+    this.setState(() => ({
+      answer
     }))
   }
   render() {
+    
     const { question } = this.props;
-    const {
-      name, avatar, optionOne, optionTwo
-    } = question;
 
     if (question === null) {
       console.log('null question')
       return <p>does not exist</p>
     }
+
+    const {
+      name, avatar, optionOne, optionTwo
+    } = question;
 
     return (
       <div className='question'>
@@ -33,11 +54,23 @@ class Question extends Component {
             src={avatar}
             className='avatar'
           />
-          <form>
+          <form onSubmit={this.handleAnswer}>
             Would you rather:
-            <input type='radio'>{optionOne}</input>
-            OR
-            <input type='radio'>{optionTwo}</input>
+            <div>
+              <input type='radio' id='optionOne' name='pollOption' onChange={this.handleChange} value={optionOne} />
+              <label htmlFor='optionOne'>{optionOne}</label>
+            </div>
+            <div>
+              <input type='radio' id='optionTwo' name='pollOption' onChange={this.handleChange} value={optionTwo} />
+              <label htmlFor='optionTwo'>{optionTwo}</label>
+            </div>
+            <button
+              className='btn'
+              type='submit'
+              // disabled={!value}
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>
@@ -48,11 +81,11 @@ class Question extends Component {
 function mapStateToProps ({ authedUser, users, questions }, { id }) {
   const question = questions[id];
   console.log('test', question, id);
-  console.log('questions', questions);
+  // console.log('questions', questions);
 
   return {
     authedUser,
-    questions,
+    // questions,
     question: question
       ? formatQuestion(question, users[question.author], authedUser)
       : null

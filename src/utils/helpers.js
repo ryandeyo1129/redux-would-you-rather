@@ -2,7 +2,11 @@ export function formatQuestion (question, author, authedUser) {
   const { id, timestamp, optionOne, optionTwo } = question;
   const { name, avatarURL } = author;
 
-  const hasAnswer = optionOne.votes.includes(authedUser) || optionTwo.votes.includes(authedUser);
+  console.log(optionOne)
+
+  const hasAnswer = optionOne.votes.includes(authedUser)
+
+  console.log(hasAnswer);
 
   return {
     name,
@@ -11,6 +15,8 @@ export function formatQuestion (question, author, authedUser) {
     avatar: avatarURL,
     optionOne: optionOne.text,
     optionTwo: optionTwo.text,
+    optionOneVotes: optionOne.length,
+    optionTwoVotes: optionTwo.length,
     hasAnswer: hasAnswer
   }
 }

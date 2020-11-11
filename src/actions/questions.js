@@ -18,10 +18,10 @@ export function receiveQuestions (questions) {
   }
 }
 
-function answerQuestion({ id, authedUser, answer }) {
+function answerQuestion({ authedUser, qid, answer }) {
   return {
     type: ANSWER_QUESTION,
-    id,
+    qid,
     authedUser,
     answer
   }
