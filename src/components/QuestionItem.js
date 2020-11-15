@@ -8,7 +8,7 @@ class QuestionItem extends Component {
     const { question } = this.props;
 
     if (question === null) {
-      return <p>does not exist</p>
+      return <p>loading</p>
     }
 
     const {
@@ -25,9 +25,9 @@ class QuestionItem extends Component {
           />
           <div>
             Would you rather:
-            <p>{optionOne}</p>
+            <p>{optionOne.text}</p>
             OR
-            <p>{optionTwo}</p>
+            <p>{optionTwo.text}</p>
           </div>
         </div>
         <Link to={`/question/${id}`} className='view-question'>View Poll</Link>

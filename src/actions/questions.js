@@ -1,8 +1,9 @@
 import { saveQuestion, saveQuestionAnswer } from '../utils/api';
 
 export const ADD_QUESTION = 'ADD_QUESTION';
+export const ADD_VOTE = 'ADD_VOTE';
 export const RECEIVE_QUESTIONS = 'RECEIVE_QUESTIONS';
-export const ANSWER_QUESTION = 'ANSWER_QUESTION'
+export const ANSWER_QUESTION = 'ANSWER_QUESTION';
 
 function addQuestion (question) {
   return {
@@ -18,7 +19,7 @@ export function receiveQuestions (questions) {
   }
 }
 
-function answerQuestion({ authedUser, qid, answer }) {
+function answerQuestion ({ authedUser, qid, answer }) {
   return {
     type: ANSWER_QUESTION,
     qid,
@@ -43,6 +44,8 @@ export function handleAddQuestion (text1, text2) {
 export function handleAnswerQuestion (info) {
   return (dispatch) => {
     dispatch(answerQuestion(info))
+
+    console.log(info)
 
     return saveQuestionAnswer(info)
       .catch(e => {

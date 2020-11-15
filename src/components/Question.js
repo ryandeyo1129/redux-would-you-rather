@@ -11,12 +11,8 @@ class Question extends Component {
   handleAnswer = (e) => {
     e.preventDefault();
 
-    console.log(e.target.value);
-
     const { dispatch, question, authedUser } = this.props
     const { answer } = this.state
-
-    console.log(answer)
 
     dispatch(handleAnswerQuestion({
       authedUser: authedUser,
@@ -25,26 +21,43 @@ class Question extends Component {
     }))
   }
   handleChange = (e) => {
-    const answer = e.target.id
+    const { question, authedUser } = this.props;
+    const answer = e.target.value;
 
-    console.log(e.target.id)
+    console.log(answer)
 
-    this.setState(() => ({
-      answer
-    }))
+    if (answer === 'optionOne') {
+      console.log('test1');
+      question.optionTwo.votes = question.optionTwo.votes.filter(uid => uid !== authedUser);
+      question.optionOne.votes.push(authedUser);
+    } else {
+      console.log('test2');
+      question.optionOne.votes = question.optionOne.votes.filter(uid => uid !== authedUser);
+      question.optionTwo.votes.push(authedUser);
+    }
+
+    console.log('1', question.optionOne.votes);
+    console.log('2', question.optionTwo.votes);
+
+    console.log(answer)
+    
+    this.setState({ answer })
   }
   render() {
     
-    const { question } = this.props;
+    const { question, authedUser } = this.props;
 
     if (question === null) {
-      console.log('null question')
       return <p>does not exist</p>
     }
 
     const {
-      name, avatar, optionOne, optionTwo
+      name, avatar, optionOne, optionTwo, hasAnswer
     } = question;
+
+    const totalVotes = optionOne.votes.length + optionTwo.votes.length;
+    const optionOnePercentage = (optionOne.votes.length / totalVotes * 100).toFixed(1);
+    const optionTwoPercentage = (optionTwo.votes.length / totalVotes * 100).toFixed(1);
 
     return (
       <div className='question'>
@@ -54,24 +67,36 @@ class Question extends Component {
             src={avatar}
             className='avatar'
           />
-          <form onSubmit={this.handleAnswer}>
-            Would you rather:
-            <div>
-              <input type='radio' id='optionOne' name='pollOption' onChange={this.handleChange} value={optionOne} />
-              <label htmlFor='optionOne'>{optionOne}</label>
-            </div>
-            <div>
-              <input type='radio' id='optionTwo' name='pollOption' onChange={this.handleChange} value={optionTwo} />
-              <label htmlFor='optionTwo'>{optionTwo}</label>
-            </div>
-            <button
-              className='btn'
-              type='submit'
-              // disabled={!value}
-            >
-              Submit
-            </button>
-          </form>
+          {!hasAnswer
+            ? <form onSubmit={this.handleAnswer}>
+                Would you rather:
+                <div>
+                  <input type='radio' id='optionOne' name='pollOption' onChange={this.handleChange} value='optionOne' />
+                  <label htmlFor='optionOne'>{optionOne.text}</label>
+                </div>
+                <div>
+                  <input type='radio' id='optionTwo' name='pollOption' onChange={this.handleChange} value='optionTwo' />
+                  <label htmlFor='optionTwo'>{optionTwo.text}</label>
+                </div>
+                <button
+                  className='btn'
+                  type='submit'
+                  disabled={this.state.answer === ''}
+                >
+                  Submit
+                </button>
+              </form>
+            : <div>
+                <div>
+                  {optionOne.text} - ( {optionOne.votes.length} of {totalVotes} votes ) - ( {optionOnePercentage} %)
+                  {optionOne.votes.includes(authedUser) ? ' - YOU VOTED FOR THIS' : ''}
+                </div>
+                <div>
+                  {optionTwo.text} - ( {optionTwo.votes.length} of {totalVotes} votes ) - ( {optionTwoPercentage} %)
+                  {optionTwo.votes.includes(authedUser) ? ' - YOU VOTED FOR THIS' : ''}
+                </div>
+              </div>
+          }
         </div>
       </div>
     );
@@ -80,12 +105,9 @@ class Question extends Component {
 
 function mapStateToProps ({ authedUser, users, questions }, { id }) {
   const question = questions[id];
-  console.log('test', question, id);
-  // console.log('questions', questions);
 
   return {
     authedUser,
-    // questions,
     question: question
       ? formatQuestion(question, users[question.author], authedUser)
       : null
