@@ -5,12 +5,19 @@ import QuestionItem from './QuestionItem';
 
 class AnsweredList extends Component {
   render () {
+    const { questions } = this.props
+    const questionsArray = Object.values(questions)
+
+    const answeredQuestions = questionsArray.filter(
+      question => (question.optionOne.votes.includes(this.props.authedUser) || question.optionTwo.votes.includes(this.props.authedUser))
+    );
+
     return (
       <div>
         <ul>
-          {this.props.questionIds.map((id) => (
-            <li key={id}>
-              <QuestionItem id={id} />
+          {answeredQuestions.map((question) => (
+            <li key={question.id}>
+              <QuestionItem id={question.id} />
             </li>
           ))}
         </ul>
@@ -19,9 +26,10 @@ class AnsweredList extends Component {
   }
 }
 
-function mapStateToProps ({ questions }) {
+function mapStateToProps ({ questions = {}, authedUser }) {
   return {
-    questionIds: Object.keys(questions)
+    questions,
+    authedUser
   }
 }
 

@@ -22,6 +22,7 @@ class QuestionItem extends Component {
           <img
             src={avatar}
             className='avatar'
+            alt={`Avatar of ${name}`}
           />
           <div>
             Would you rather:
@@ -38,8 +39,6 @@ class QuestionItem extends Component {
 
 function mapStateToProps ({ authedUser, users, questions }, { id }) {
   const question = questions[id];
-  console.log('test', question);
-
 
   return {
     authedUser,

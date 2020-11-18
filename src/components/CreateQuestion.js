@@ -5,45 +5,50 @@ import { Redirect } from 'react-router-dom';
 
 class CreateQuestion extends Component {
   state = {
-    text1: '',
-    text2: ''
+    optionOneText: '',
+    optionTwoText: '',
+    toHome: false,
   }
 
   handleChange1 = (e) => {
-    const text1 = e.target.value
+    const optionOneText = e.target.value;
     
     this.setState(() => ({
-      text1
-    }))
+      optionOneText
+    }));
   }
   handleChange2 = (e) => {
-    const text2 = e.target.value
+    const optionTwoText = e.target.value;
     
     this.setState(() => ({
-      text2
-    }))
+      optionTwoText
+    }));
   }
   handleSubmit = (e) => {
     e.preventDefault();
 
-    const { text1, text2 } = this.state;
+    const { optionOneText, optionTwoText } = this.state;
     const { dispatch, id } = this.props;
 
-    dispatch(handleAddQuestion(text1, text2, id));
-
-    console.log('Would you rather: ', text1, ' or ', text2);
+    dispatch(handleAddQuestion(optionOneText, optionTwoText, id));
 
     this.setState(() => ({
-      text: '',
+      optionOneText: '',
+      optionTwoText: '',
       toHome: id ? false : true
     }))
   }
 
   render() {
-    const { text1, text2, toHome } = this.state
+    const { optionOneText, optionTwoText, toHome } = this.state;
+    const { authedUser } = this.props;
+
+    if (authedUser === null) {
+      return <Redirect to='/login' />;
+    }
 
     if (toHome) {
-      return <Redirect to='/' />
+      return <Redirect to='/unanswered' />;
     }
 
     return (
@@ -52,19 +57,19 @@ class CreateQuestion extends Component {
         <form onSubmit={this.handleSubmit}>
           <input
             placeholder="scenario 1"
-            value={text1}
+            value={optionOneText}
             onChange={this.handleChange1}
           />
           <span>OR</span>
           <input
             placeholder="scenario 2"
-            value={text2}
+            value={optionTwoText}
             onChange={this.handleChange2}
           />
           <button
             className='btn'
             type='submit'
-            disabled={text1 === '' || text2 === ''}
+            disabled={optionOneText === '' || optionTwoText === ''}
           >
             Submit
           </button>
@@ -74,4 +79,11 @@ class CreateQuestion extends Component {
   }
 }
 
-export default connect()(CreateQuestion);
+function mapStateToProps ({ authedUser }, { id }) {
+  return {
+    authedUser,
+    id
+  }
+}
+
+export default connect(mapStateToProps)(CreateQuestion);

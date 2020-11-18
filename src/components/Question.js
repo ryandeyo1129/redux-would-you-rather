@@ -24,22 +24,13 @@ class Question extends Component {
     const { question, authedUser } = this.props;
     const answer = e.target.value;
 
-    console.log(answer)
-
     if (answer === 'optionOne') {
-      console.log('test1');
       question.optionTwo.votes = question.optionTwo.votes.filter(uid => uid !== authedUser);
-      question.optionOne.votes.push(authedUser);
+      question.optionOne.votes.concat(authedUser);
     } else {
-      console.log('test2');
       question.optionOne.votes = question.optionOne.votes.filter(uid => uid !== authedUser);
-      question.optionTwo.votes.push(authedUser);
+      question.optionTwo.votes.concat(authedUser);
     }
-
-    console.log('1', question.optionOne.votes);
-    console.log('2', question.optionTwo.votes);
-
-    console.log(answer)
     
     this.setState({ answer })
   }
@@ -66,6 +57,7 @@ class Question extends Component {
           <img
             src={avatar}
             className='avatar'
+            alt={`Avatar of ${name}`}
           />
           {!hasAnswer
             ? <form onSubmit={this.handleAnswer}>
@@ -107,6 +99,7 @@ function mapStateToProps ({ authedUser, users, questions }, { id }) {
   const question = questions[id];
 
   return {
+    users,
     authedUser,
     question: question
       ? formatQuestion(question, users[question.author], authedUser)

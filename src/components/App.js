@@ -7,7 +7,7 @@ import Navbar from './Navbar';
 import Home from './Home';
 import QuestionPage from './QuestionPage';
 import CreateQuestion from './CreateQuestion';
-import LeaderBoard from './LeaderBoard';
+import Leaderboard from './Leaderboard';
 import Login from './Login';
 import AnsweredList from './AnsweredList';
 import UnansweredList from './UnansweredList';
@@ -17,16 +17,20 @@ class App extends Component {
     this.props.dispatch(handleInitialData())
   }
   render () {
+    const { authedUser } = this.props
     return (
       <Router>
         <div className="container">
-          <Navbar />
+          {window.location.pathname === '/login' || authedUser === null
+            ? null
+            : <Navbar />
+          }
           <div>
+            <Route path='/login' component={Login} />
             <Route path='/' component={Home} />
             <Route path='/question/:id' component={QuestionPage} />
-            <Route path='/new' component={CreateQuestion} />
-            <Route path='/leaderboard' component={LeaderBoard} />
-            <Route path='/login' component={Login} />
+            <Route path='/add' component={CreateQuestion} />
+            <Route path='/leaderboard' component={Leaderboard} />
             <Route path='/unanswered' component={UnansweredList} />
             <Route path='/answered' component={AnsweredList} />
           </div>
@@ -36,4 +40,10 @@ class App extends Component {
   }
 }
 
-export default connect()(App);
+function mapStateToProps ({ authedUser }) {
+  return {
+    authedUser
+  }
+}
+
+export default connect(mapStateToProps)(App);

@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import ListNav from './ListNav';
 
@@ -14,12 +16,31 @@ class Home extends Component {
   };
 
   render () {
+    const { authedUser } = this.props
+    
+    if (authedUser === null) {
+      return <Redirect to='/login' />;
+    }
+
     return (
       <div>
-        <ListNav />
+        {window.location.pathname === '/' || window.location.pathname === '/unanswered' || window.location.pathname === '/answered'
+          ? <ListNav />
+          : null
+        }
+        {window.location.pathname === '/'
+          ? <Redirect to='/unanswered' />
+          : null
+        }
       </div>
     );
   }
 }
 
-export default Home;
+function mapStateToProps ({ authedUser }) {
+  return {
+    authedUser
+  }
+}
+
+export default connect(mapStateToProps)(Home);

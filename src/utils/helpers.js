@@ -9,8 +9,8 @@ export function formatQuestion (question, author, authedUser) {
     id,
     timestamp,
     avatar: avatarURL,
-    optionOne: optionOne,
-    optionTwo: optionTwo,
-    hasAnswer: hasAnswer
+    optionOne,
+    optionTwo,
+    hasAnswer
   }
 }

@@ -28,26 +28,31 @@ function answerQuestion ({ authedUser, qid, answer }) {
   }
 }
 
-export function handleAddQuestion (text1, text2) {
+export function handleAddQuestion (optionOneText, optionTwoText, id) {
   return (dispatch, getState) => {
-    const { authedUser } = getState();
+    const { authedUser, users } = getState();
 
     return saveQuestion({
-      text1,
-      text2,
-      author: authedUser
+      optionOneText,
+      optionTwoText,
+      author: authedUser,
     })
-      .then(question => dispatch(addQuestion(question)))
+      .then(question => {
+        users[authedUser].questions.push(question.id);
+        dispatch(addQuestion(question))
+      })
   }
 }
 
 export function handleAnswerQuestion (info) {
-  return (dispatch) => {
+  return (dispatch, getState) => {
+    const { authedUser, users } = getState();
     dispatch(answerQuestion(info))
 
-    console.log(info)
-
     return saveQuestionAnswer(info)
+      .then(() => {
+        users[authedUser].answers[info.qid] = info.answer
+      })
       .catch(e => {
         console.warn('error in handleAnswerQuestion: ', e);
         dispatch(answerQuestion(info));

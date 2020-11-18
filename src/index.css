@@ -12,6 +12,10 @@ code {
     monospace;
 }
 
+.nav {
+  display: inline;
+}
+
 .nav ul {
   display: flex;
   flex-direction: row;
@@ -38,6 +42,6 @@ li {
   display: block;
 }
 
-.question, .new-question {
+.question, .new-question, h1, .login {
   padding-left: 50px;
 }
